@@ -30,15 +30,11 @@ app.get("/colors", (req, res) => {
 
 // #2 & #4 handle POST requests to /colors
 app.post("/colors", (req, res) => {
-  try {
-    const { fruit } = req.body;
-    const result = getColor(fruit);
-    result
-      ? res.send({ color: result })
-      : res.status(404).send("Fruit not found!");
-  } catch (error) {
-    res.status(404).send("Error!");
-  }
+  const { fruit } = req.body;
+  const result = getColor(fruit);
+  result
+    ? res.send({ color: result })
+    : res.status(404).send("Fruit not found!");
 });
 
 // #6 serve styles.css - DO NOT use express.static()
