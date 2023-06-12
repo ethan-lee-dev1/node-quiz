@@ -30,17 +30,21 @@ app.get("/colors", (req, res) => {
 
 // #2 & #4 handle POST requests to /colors
 app.post("/colors", (req, res) => {
-  const { fruit } = req.body;
-  const result = getColor(fruit);
-  result
-    ? res.send({ color: result })
-    : res.status(404).send("Fruit not found!");
+  try {
+    const { fruit } = req.body;
+    const result = getColor(fruit);
+    result
+      ? res.send({ color: result })
+      : res.status(404).send("Fruit not found!");
+  } catch (error) {
+    res.status(404).send("Error!");
+  }
 });
 
 // #6 serve styles.css - DO NOT use express.static()
 app.get("/styles.css", (req, res) => {
   const ABSOLUTE_PATH = path.join(__dirname, "./client/styles.css");
-  res.sendFile(ABSOLUTE_PATH);
+  res.status(200).sendFile(ABSOLUTE_PATH);
 });
 
 // #5 Update functionality to database
@@ -54,7 +58,7 @@ app.put("/colors/:id/:fruit", async (req, res) => {
     [color, carId]
   );
   result
-    ? res.send({ "message ": result.info })
+    ? res.send({ "message ": result.info + "Updated Color!" })
     : res.status(404).send("Unable to update!");
 });
 
